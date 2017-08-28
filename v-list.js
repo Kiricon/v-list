@@ -59,7 +59,6 @@ class VList extends HTMLElement {
     render(rowData, generator) {
         this.rowData = rowData;
         this.generator = generator;
-
         this.renderAll();
     }
 
