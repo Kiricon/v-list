@@ -15,12 +15,40 @@
             background-color: #eee;
         }
 
+        #vList {
+            height: 500px;
+            width: 500px;
+            border: solid 1px #aaa;
+        }
+
+        .rowElement {
+            padding: 10px 0px;
+            width: 100%;
+        }
+
 
     </style>
 </head>
 
 <body>
-    <v-list id="vList"></v-list>
+    <v-list id="vList">
+        Loading...
+    </v-list>
   <script src="v-list.js"></script>
+  <script>
+    let  array = [];
+    for(let i = 0; i < 20; i++) {
+        array.push(i);
+    }
+
+    vList.render(array, (value) => {
+        let row = document.createElement("div");
+        row.innerText = `Row: ${value}`;
+        row.className = "rowElement";
+        return row;
+    });
+
+
+  </script>
 </body>
 </html>

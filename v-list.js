@@ -7,6 +7,7 @@ template.innerHTML = `
     <style>
         :host {
             display: block;
+            overflow-y: scrollable;
         }
     </style>
 `;
@@ -34,6 +35,8 @@ class VList extends HTMLElement {
         this.shadowRoot.appendChild(template.content.cloneNode(true));
 
         // add any initial variables here
+        this.rowData = [];
+        this.generator = null;
     }
 
     /**
@@ -64,6 +67,19 @@ class VList extends HTMLElement {
      */
     attributeChangedCallback(name, oldValue, newValue) {
         // respond to a changed attribute here
+    }
+
+    render(rowData, generator) {
+        this.rowData = rowData;
+        this.generator = generator;
+
+        this.renderAll();
+    }
+
+    renderAll() {
+        for(let i = 0; i < this.rowData.length; i++) {
+            this.shadowRoot.appendChild(this.generator(this.rowData[i]));
+        }
     }
 }
 
