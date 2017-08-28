@@ -1,16 +1,3 @@
-/**
- * The template that is used for the shadow root for every copy of your element,
- * which houses the styles and layout for the element.
- */
-const template = document.createElement("template");
-template.innerHTML = `
-    <style>
-        :host {
-            display: block;
-            overflow-y: scrollable;
-        }
-    </style>
-`;
 
 /**
  * This is the class that controls each instance of your custom element.
@@ -30,13 +17,13 @@ class VList extends HTMLElement {
     constructor() {
         super();
 
-        // create shadow root for any children context
-        this.attachShadow({mode: "open"});
-        this.shadowRoot.appendChild(template.content.cloneNode(true));
+        this.style.overflowY = "scroll";
+        this.style.display = "block";
 
         // add any initial variables here
         this.rowData = [];
         this.generator = null;
+        
     }
 
     /**
@@ -78,7 +65,7 @@ class VList extends HTMLElement {
 
     renderAll() {
         for(let i = 0; i < this.rowData.length; i++) {
-            this.shadowRoot.appendChild(this.generator(this.rowData[i]));
+            this.appendChild(this.generator(this.rowData[i]));
         }
     }
 }
