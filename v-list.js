@@ -32,7 +32,7 @@ class VList extends HTMLElement {
      * cases.
      */
     connectedCallback() {
-        
+        this.addEventListener('scroll', this.adjustScrollView);
     }
 
     /**
@@ -59,6 +59,9 @@ class VList extends HTMLElement {
     render(rowData, generator) {
         this.rowData = rowData;
         this.generator = generator;
+        this.rowHeight = 40;
+
+        this.viewableRows = Math.round((this.offsetHeight - 2 )/ this.rowHeight);
         this.renderAll();
     }
 
@@ -66,6 +69,12 @@ class VList extends HTMLElement {
         for(let i = 0; i < this.rowData.length; i++) {
             this.appendChild(this.generator(this.rowData[i]));
         }
+    }
+
+    adjustScrollView() {
+        let scroll = this.scrollTop;
+        let position = Math.round(scroll / this.rowData.length);
+        console.log(position+this.viewableRows);
     }
 }
 
