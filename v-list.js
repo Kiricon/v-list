@@ -56,10 +56,10 @@ class VList extends HTMLElement {
         // respond to a changed attribute here
     }
 
-    render(rowData, generator) {
+    render(rowData, rowHeight, generator) {
         this.rowData = rowData;
         this.generator = generator;
-        this.rowHeight = 40;
+        this.rowHeight = rowHeight;
 
         this.viewableRows = Math.round((this.offsetHeight - 2 )/ this.rowHeight);
         this.renderAll();
@@ -74,6 +74,7 @@ class VList extends HTMLElement {
     adjustScrollView() {
         let scroll = this.scrollTop;
         let position = Math.round(scroll / this.rowData.length);
+        let endPosition = 
         console.log(position+this.viewableRows);
     }
 }

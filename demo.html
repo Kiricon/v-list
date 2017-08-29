@@ -41,7 +41,7 @@
         array.push(i);
     }
 
-    vList.render(array, (value) => {
+    vList.render(array, 40, (value) => {
         let row = document.createElement("div");
         row.innerText = `Row: ${value}`;
         row.className = "rowElement";
