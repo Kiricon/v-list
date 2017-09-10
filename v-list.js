@@ -24,6 +24,7 @@ class VList extends HTMLElement {
         this.rowData = [];
         this.generator = null;
         
+        
     }
 
     /**
@@ -61,7 +62,8 @@ class VList extends HTMLElement {
         this.generator = generator;
         this.rowHeight = rowHeight;
 
-        this.viewableRows = Math.round((this.offsetHeight - 2 )/ this.rowHeight);
+        
+        
         this.renderAll();
     }
 
@@ -72,10 +74,10 @@ class VList extends HTMLElement {
     }
 
     adjustScrollView() {
-        let scroll = this.scrollTop;
-        let position = Math.round(scroll / this.rowData.length);
-        let endPosition = 
-        console.log(position+this.viewableRows);
+        this.viewAbleRowStart = Math.round(this.scrollTop / this.rowHeight);
+        this.viewAbleRowEnd = Math.round((this.scrollTop + this.offsetHeight) / this.rowHeight);
+
+        console.log(`${this.viewAbleRowStart} - ${this.viewAbleRowEnd}`);
     }
 }
 
