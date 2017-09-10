@@ -61,14 +61,17 @@ class VList extends HTMLElement {
         this.rowData = rowData;
         this.generator = generator;
         this.rowHeight = rowHeight;
-
-        
+        this.offset = 10;
+        this.offsetThreshold = 1;
+        this.viewAbleRows = Math.round((this.scrollTop + this.offsetHeight) / this.rowHeight);
+        this.adjustScrollView();
         
         this.renderAll();
     }
 
     renderAll() {
-        for(let i = 0; i < this.rowData.length; i++) {
+        this.innerHTML = "";
+        for(let i = this.viewAbleRowStart; i < this.viewAbleRowEnd + this.offset; i++) {
             this.appendChild(this.generator(this.rowData[i]));
         }
     }
@@ -76,6 +79,15 @@ class VList extends HTMLElement {
     adjustScrollView() {
         this.viewAbleRowStart = Math.round(this.scrollTop / this.rowHeight);
         this.viewAbleRowEnd = Math.round((this.scrollTop + this.offsetHeight) / this.rowHeight);
+
+        if(this.offsetThreshold !== 1 && this.offsetThreshold === this.viewAbleRowStart) {
+            this.offsetThreshold -= this.offset;
+            this.renderAll();
+        }else if((this.offsetThreshold + this.viewAbleRows) === this.viewAbleRowEnd) {
+            this.offsetThreshold += this.offset;
+            this.renderAll();
+        }
+        
 
         console.log(`${this.viewAbleRowStart} - ${this.viewAbleRowEnd}`);
     }
