@@ -23,7 +23,9 @@ class VList extends HTMLElement {
         // add any initial variables here
         this.rowData = [];
         this.generator = null;
-        
+        this.innerHTML = '<div class="container"><div class="subContainer"></div></div>';
+        this.container = document.querySelector('.container');
+        this.subContainer = this.container.querySelector('.subContainer');
         
     }
 
@@ -62,17 +64,19 @@ class VList extends HTMLElement {
         this.generator = generator;
         this.rowHeight = rowHeight;
         this.offset = 10;
-        this.offsetThreshold = 1;
         this.viewAbleRows = Math.round((this.scrollTop + this.offsetHeight) / this.rowHeight);
+        this.offsetThreshold = this.viewAbleRows
+        this.container.style.height = `${rowData.length * rowHeight}px`;
         this.adjustScrollView();
         
         this.renderAll();
     }
 
     renderAll() {
-        this.innerHTML = "";
+        this.subContainer.innerHTML = "";
+        this.subContainer.style.paddingTop = `${this.scrollTop}px`;
         for(let i = this.viewAbleRowStart; i < this.viewAbleRowEnd + this.offset; i++) {
-            this.appendChild(this.generator(this.rowData[i]));
+            this.subContainer.appendChild(this.generator(this.rowData[i]));
         }
     }
 
@@ -80,11 +84,11 @@ class VList extends HTMLElement {
         this.viewAbleRowStart = Math.round(this.scrollTop / this.rowHeight);
         this.viewAbleRowEnd = Math.round((this.scrollTop + this.offsetHeight) / this.rowHeight);
 
-        if(this.offsetThreshold !== 1 && this.offsetThreshold === this.viewAbleRowStart) {
-            this.offsetThreshold -= this.offset;
+        if(this.offsetThreshold !== 0 && (this.offsetThreshold - this.viewAbleRows - this.offset) === this.viewAbleRowStart) {
+            this.offsetThreshold -= this.viewAbleRows;
             this.renderAll();
-        }else if((this.offsetThreshold + this.viewAbleRows) === this.viewAbleRowEnd) {
-            this.offsetThreshold += this.offset;
+        }else if((this.offsetThreshold + this.offset) === this.viewAbleRowEnd) {
+            this.offsetThreshold += this.viewAbleRows;
             this.renderAll();
         }
         
